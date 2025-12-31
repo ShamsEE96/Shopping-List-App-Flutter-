@@ -6,5 +6,6 @@ SharedPreferences? globalSharedPrefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   globalSharedPrefs = await SharedPreferences.getInstance();
+  print('SharedPreferences initialized');
   runApp(const MyApp());
 }
