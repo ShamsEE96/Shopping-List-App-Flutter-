@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flutter Project Structure Guide</title>
+    <style>
+        :root {
+            --primary-color: #02569B; /* Flutter Blue */
+            --secondary-color: #0175C2;
+            --accent-color: #13B9FD;
+            --text-color: #333;
+            --bg-color: #fca;
+            --card-bg: #fff;
+            --code-bg: #f5f5f5;
+            --code-text: #e01e5a;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #F8F9FA;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .file-section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            padding: 25px;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 .file-path {
+            font-size: 0.6em;
+            color: #888;
+            font-weight: normal;
+            margin-left: auto;
+            font-family: monospace;
+            background: var(--code-bg);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .description {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .key-points {
+            list-style: none;
+            padding: 0;
+        }
+
+        .key-points li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        strong {
+            color: #000;
+        }
+
+        /* Specific styles for nested sections (like Gradle) */
+        .sub-section {
+            background-color: #fcfcfc;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        .sub-section h3 {
+            margin-top: 0;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .platform-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .android { background-color: #3DDC84; color: #003300; }
+        .ios { background-color: #000000; }
+        .flutter { background-color: #02569B; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Flutter Project Files</h1>
+        <div class="subtitle">A Beginner's Guide to Important Configuration Files</div>
+    </header>
+
+    <!-- ANDROID MANIFEST -->
+    <div class="file-section">
+        <h2>
+            <span class="platform-badge android">Android</span> AndroidManifest.xml
+            <span class="file-path">android/app/src/main/AndroidManifest.xml</span>
+        </h2>
+        <p class="description">The main configuration file for the Android system. It tells the OS "who" the app is and "what" it needs.</p>
+        <ul class="key-points">
+            <li><strong>manifest (package="...")</strong>: The unique internal identifier for the app package.</li>
+            <li><strong>uses-permission</strong>: This is where you declare permissions like Internet, Camera, or Location.</li>
+            <li><strong>application > android:label</strong>: The name of the app as it appears to the user (e.g., "bootcamp_01").</li>
+            <li><strong>activity > .MainActivity</strong>: The entry point for the Android app. The <code>intent-filter</code> with <code>action.MAIN</code> and <code>category.LAUNCHER</code> makes this the first screen.</li>
+            <li><strong>meta-data</strong>: Configuration tags used by the Flutter engine to set themes or integration settings.</li>
+        </ul>
+    </div>
+
+    <!-- GRADLE -->
+    <div class="file-section">
+        <h2>
+            <span class="platform-badge android">Android</span> build.gradle.kts
+            <span class="file-path">Multiple Locations</span>
+        </h2>
+        <p class="description">Android uses Gradle for building. There are TWO main files you need to distinguish:</p>
+        
+        <div class="sub-section">
+            <h3>A. Project Level <span style="float:right; font-size:0.8em; font-weight:normal; font-family:monospace;">android/build.gradle.kts</span></h3>
+            <ul class="key-points">
+                <li><strong>Purpose</strong>: Configuration for the <i>entire</i> workspace/project.</li>
+                <li><strong>allprojects { repositories }</strong>: Tells Gradle where to download libraries from (e.g., google(), mavenCentral()).</li>
+                <li><strong>Role</strong>: It acts as the "Parent". Generally, you touch this file less often.</li>
+            </ul>
+        </div>
+
+        <div class="sub-section">
+            <h3>B. App Level <span style="float:right; font-size:0.8em; font-weight:normal; font-family:monospace;">android/app/build.gradle.kts</span></h3>
+            <ul class="key-points">
+                <li><strong>Purpose</strong>: Configuration specific to the <strong>App Module</strong> (your code). Edited most often.</li>
+                <li><strong>defaultConfig > applicationId</strong>: The unique ID for the Play Store (e.g., com.example.app).</li>
+                <li><strong>minSdk / targetSdk</strong>: Defines which Android versions your app supports.</li>
+                <li><strong>versionCode / versionName</strong>: Automatically pulled from <code>pubspec.yaml</code>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- APP DELEGATE -->
+    <div class="file-section">
+        <h2>
+            <span class="platform-badge ios">iOS</span> AppDelegate.swift
+            <span class="file-path">ios/Runner/AppDelegate.swift</span>
+        </h2>
+        <p class="description">The entry point for the iOS application code.</p>
+        <ul class="key-points">
+            <li><strong>@main</strong>: The annotation that tells iOS "Start here".</li>
+            <li><strong>FlutterAppDelegate</strong>: The class inherits from this to give your iOS app Flutter capabilities.</li>
+            <li><strong>GeneratedPluginRegistrant.register(with: self)</strong>: A critical line that initializes all your Flutter plugins so they work on the iOS side.</li>
+        </ul>
+    </div>
+
+    <!-- INFO PLIST -->
+    <div class="file-section">
+        <h2>
+            <span class="platform-badge ios">iOS</span> Info.plist
+            <span class="file-path">ios/Runner/Info.plist</span>
+        </h2>
+        <p class="description">A property list that stores configuration data for the iOS app.</p>
+        <ul class="key-points">
+            <li><strong>CFBundleDisplayName</strong>: The app name shown on the iPhone home screen.</li>
+            <li><strong>CFBundleIdentifier</strong>: The unique Bundle ID for the App Store.</li>
+            <li><strong>NS...UsageDescription Keys</strong>: Keys you MUST add to explain why you need permissions (Camera, Location, etc.) or the app will crash on iOS.</li>
+            <li><strong>CFBundleVersion / ShortVersionString</strong>: Mapped from your Flutter build version.</li>
+        </ul>
+    </div>
+
+    <!-- PUBSPEC -->
+    <div class="file-section" style="border-left-color: var(--primary-color);">
+        <h2 style="color: var(--primary-color);">
+            <span class="platform-badge flutter">Flutter</span> pubspec.yaml
+            <span class="file-path">root/pubspec.yaml</span>
+        </h2>
+        <p class="description">The heart of a Flutter project. It manages dependencies, versioning, and assets.</p>
+        <ul class="key-points">
+            <li><strong>name & description</strong>: Internal project metadata.</li>
+            <li><strong>version</strong>: The single source of truth (e.g., <code>1.0.0+1</code>). Used for both Android and iOS versions.</li>
+            <li><strong>environment</strong>: Specifies the Dart SDK version required.</li>
+            <li><strong>dependencies</strong>: Where you add libraries (e.g., <code>http</code>, <code>provider</code>).</li>
+            <li><strong>flutter > assets</strong>: Where you list images to bundle with the app.</li>
+            <li><strong>flutter > fonts</strong>: Where you register custom font files.</li>
+        </ul>
+    </div>
+
+    <footer style="text-align: center; color: #888; font-size: 0.8em; margin-top: 50px;">
+        Generated for Flutter Bootcamp 01
+    </footer>
+</div>
+
+</body>
+</html>
