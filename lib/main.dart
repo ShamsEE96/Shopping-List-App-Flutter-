@@ -5,6 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 SharedPreferences? globalSharedPrefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  print('SharedPreferences initialized');
+  int x = 1;
   runApp(const MyApp());
 }
